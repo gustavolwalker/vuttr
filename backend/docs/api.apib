@@ -1,0 +1,113 @@
+FORMAT: 1A
+HOST: http://localhost:3000
+
+# VUTTR API
+Sample api to organiza yours Very Useful Tools to Remember (VUTTR). This is a sample app.
+
+# Group API
+
+## About [/]
+
+The root URL is a response then elapsed time when the server started.
+
+### Test server [GET]
+
++ Response 200 (application/text)
+    + Attributes (string)
+    
+# Group Tools
+
+## Tools [/tools?tag={tag}]
+
++ Parameters
+    + tag: calendar (string, optional) - Tag of some tool
+
+### Index tools [GET]
+
++ Response 200 (application/json)
+    + Attributes (array[ToolCreated])
+
++ Response 500 (application/text)
+    + Attributes (object)
+
+## Tools [/tools]
+
+### Store tool [POST]
+
++ Request Store a new tool
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+    + Attributes (Tool)
+
++ Response 201 (application/json)
+    + Attributes (ToolCreated)
+
+
+## Tool [/tools/{id}]
+
++ Parameters
+    + id: 1 (number, required) - ID of tool
+
+### Show tool [GET]
+
++ Response 200 (application/json)
+    + Attributes (ToolCreated)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/text)
+    + Attributes (object)
+
+### Update tool [PUT]
+
++ Request Update tool
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+    + Attributes (Tool)
+
++ Response 202 (application/json)
+    + Attributes (DataResponse)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/text)
+    + Attributes (object)
+
+### Delete tool [DELETE]
+
++ Response 204 (application/json)
+    + Attributes (DataResponse)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/text)
+    + Attributes (object)
+
+
+# Data Structures
+
+## Tool (object)
++ title: Notion (string) - Title of tool
++ link: https://notion.so (string) - URL of tool
++ description: All in one tool to organize teams and ideas. Write, plan, collaborate, and get organized. (string) - Description about tool
++ tags: organization, planning, collaboration, writing, calendar (array[string]) - List of tags of tool
+
+## ToolCreated (Tool)
++ id (number) - Identification value of tool
++ created_at: `2020-02-26T17:22:47.968Z` (string) - Date of created, a timestamp on UTC
++ updated_at: `2020-02-26T17:22:47.968Z` (string) - Date of last updated, a timestamp on UTC
+
+## DataResponse (object)
++ data: success (string) - Data value of response
+
+## Error (object)
++ errors (array[string]) - Errors messages

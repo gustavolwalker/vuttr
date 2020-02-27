@@ -1,0 +1,415 @@
+{
+	"info": {
+		"_postman_id": "c8ec225c-a3ba-441f-9d91-a096f50f47a7",
+		"name": "VUTTR",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tools",
+			"item": [
+				{
+					"name": "#02 - index",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8573e4b1-db0b-4ee0-aed6-d5de27f2f2a1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tools",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "#10 - index filtered by node",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8573e4b1-db0b-4ee0-aed6-d5de27f2f2a1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"index have 2 objects\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(2);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tools?tag=node",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools"
+							],
+							"query": [
+								{
+									"key": "tag",
+									"value": "node"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "#07 - index before delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8573e4b1-db0b-4ee0-aed6-d5de27f2f2a1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"index have 4 objects\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(4);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tools",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "#09 - index after delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8573e4b1-db0b-4ee0-aed6-d5de27f2f2a1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"index have 3 objects\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(3);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tools",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "#04 - show after store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fb279378-7f8c-41ab-b761-dd945bbb033a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tools/{{value_id}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools",
+								"{{value_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "#06 - show after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fb279378-7f8c-41ab-b761-dd945bbb033a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"template para backend node\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tools/{{value_id}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools",
+								"{{value_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "#05 - update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ea537c72-a46d-4860-8489-503f6fb867c2",
+								"exec": [
+									"pm.test(\"Status code is 202\", function () {",
+									"    pm.response.to.have.status(202);",
+									"});",
+									"",
+									"pm.test(\"Json response data is success\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.eql(\"success\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"hotel\",\n    \"link\": \"https://github.com/typicode/hotel\",\n    \"description\": \"Local app manager. Start apps within your browser, developer tool with local localhost domain and https out of the box.\",\n    \"tags\": [\n        \"node\",\n        \"organizing\",\n        \"webapps\",\n        \"domain\",\n        \"developer\",\n        \"https\",\n        \"proxy\",\n        \"github\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/tools/{{value_id}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools",
+								"{{value_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "#08 - delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b1d5abef-1abe-478e-aa6f-cc6c9bd14317",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/tools/{{value_id}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools",
+								"{{value_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "#03 - store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4928b10e-4d0c-46b6-b74d-659918048b27",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Response has id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"id\");",
+									"    pm.environment.set(\"value_id\", jsonData.id);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"hotel\",\n    \"link\": \"https://github.com/typicode/hotel\",\n    \"description\": \"Local app manager. Start apps within your browser, developer tool with local .localhost domain and https out of the box.\",\n    \"tags\": [\n        \"node\",\n        \"organizing\",\n        \"webapps\",\n        \"domain\",\n        \"developer\",\n        \"https\",\n        \"proxy\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/tools",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tools"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "#01 - root",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad0435d8-b938-4006-aa25-38a36415a1d9",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"running\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

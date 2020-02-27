@@ -1,0 +1,19 @@
+{
+	"id": "202cc64c-c82e-49ae-ba5d-108fa16df146",
+	"name": "localhost:3000",
+	"values": [
+		{
+			"key": "BASE_URL",
+			"value": "localhost:3000",
+			"enabled": true
+		},
+		{
+			"key": "value_id",
+			"value": 4,
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2020-02-26T21:00:47.665Z",
+	"_postman_exported_using": "Postman/7.18.0"
+}
