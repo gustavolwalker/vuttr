@@ -1,14 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
-import bcrypt from "bcryptjs";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    async encodingPassword() {
-        this.password = await bcrypt.hash(this.password, 8);
-    }
 
     @PrimaryGeneratedColumn()
     public id!: number;
@@ -19,8 +12,11 @@ export class User {
     @Column()
     public email!: string;
 
-    @Column()
     public password!: string;
+
+    @Column({ name: 'password', nullable: true })
+    public password_hash!: string;
+
 
     @CreateDateColumn()
     public readonly created_at!: Date;
