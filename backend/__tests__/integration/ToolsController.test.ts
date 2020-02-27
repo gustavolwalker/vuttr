@@ -3,7 +3,7 @@ import { Server } from "http";
 
 import startServer from "../../src/server";
 import truncate from "../utils/truncate";
-import { Tool } from "../../src/app/entity/Tool";
+import { Tool } from "../../src/app/entities/Tool";
 
 describe('ToolsController', () => {
 

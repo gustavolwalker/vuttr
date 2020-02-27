@@ -3,7 +3,7 @@ import { Server } from "http";
 
 import startServer from "../../src/server";
 import truncate from "../utils/truncate";
-import { User } from "../../src/app/entity/User";
+import { User } from "../../src/app/entities/User";
 
 describe('UsersController', () => {
 

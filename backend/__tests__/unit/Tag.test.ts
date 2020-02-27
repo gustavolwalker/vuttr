@@ -1,4 +1,4 @@
-import { Tag } from "../../src/app/entity/Tag";
+import { Tag } from "../../src/app/entities/Tag";
 import { createConnection, Connection } from "typeorm";
 import truncate from "../utils/truncate";
 

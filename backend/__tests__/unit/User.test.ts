@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { createConnection, Connection } from "typeorm";
-import { User } from "../../src/app/entity/User";
+import { User } from "../../src/app/entities/User";
 import truncate from "../utils/truncate";
 
 

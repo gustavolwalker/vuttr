@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Tool } from "../entity/Tool";
+import { Tool } from "../entities/Tool";
 import { getRepository } from "typeorm";
 
 export class ToolController {

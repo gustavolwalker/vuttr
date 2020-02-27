@@ -1,4 +1,4 @@
-import { Tool } from "../../src/app/entity/Tool";
+import { Tool } from "../../src/app/entities/Tool";
 import { createConnection, Connection } from "typeorm";
 import truncate from "../utils/truncate";
 
