@@ -1,7 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
+import bcrypt from "bcryptjs";
 
 @Entity()
 export class User {
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async encodingPassword() {
+        this.password = await bcrypt.hash(this.password, 8);
+    }
 
     @PrimaryGeneratedColumn()
     public id!: number;
@@ -20,4 +27,5 @@ export class User {
 
     @UpdateDateColumn()
     public readonly updated_at!: Date;
+
 }
