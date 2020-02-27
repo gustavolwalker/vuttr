@@ -22,6 +22,4 @@ describe('Unit tests for entity Tag', () => {
         const response = await connection.getRepository(Tag).save({ tag: "utTag" });
         expect(response).not.toBeNull();
     });
-
-
 });

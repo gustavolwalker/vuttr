@@ -33,5 +33,5 @@ describe('Unit tests for entity Tool', () => {
         expect(newTool.id).toBeGreaterThan(0);
         expect(newTool.tags.length).toBe(3);
     });
-}); queueMicrotask
+});
 
