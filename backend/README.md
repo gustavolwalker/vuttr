@@ -1,9 +1,14 @@
-# template-backend
-Template to create a new nodejs/express backend;
-
-This template is a basecode to development backend's using NodeJS, Express, Body-Parser, Typeorm, PostgresSQL, TypeScript, Jest, and more.
+# VUTTR-BACKEND
+This is a sample backend code to control some tools to remember writing in NodeJS, Express, Body-Parser, Typeorm, PostgresSQL, TypeScript, Jest, and more.
 
 ## Scripts to use
+
+### Init 
+To inicialize repository you need to run first:
+
+```sh
+yarn install
+```
 
 ### Create a dev database
 To create a dev database:
@@ -39,6 +44,21 @@ yarn test
 ```
 
 If you want to execute dev tests we provide two files 'postman-environment.json' to configure enviroments variables and 'postman-vuttr.json' with a collection of tests;
+
+### Check API Documentation
+If you don't hava [Aglio](https://github.com/danielgtaylor/aglio#readme) we recomend to install it:
+
+```sh
+npm install -g aglio
+```
+
+To run server using this comamnd:
+
+```sh
+yarn api-doc
+```
+
+It's start a web server on port localhost:3003 
 
 
 ### Generate a build
