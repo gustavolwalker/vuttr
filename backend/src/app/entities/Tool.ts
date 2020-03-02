@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from "typeorm";
 import { Tag } from "./Tag";
+import { Min, IsUrl } from "class-validator";
 
 @Entity()
 export class Tool {
@@ -7,9 +8,11 @@ export class Tool {
     @PrimaryGeneratedColumn()
     public id!: number;
 
+    @Min(3)
     @Column()
     public title!: string;
 
+    @IsUrl()
     @Column()
     public link!: string;
 

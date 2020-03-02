@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
-import { Tool } from "../entities/Tool";
 import { getRepository } from "typeorm";
+import { validate } from "class-validator";
+import { Tool } from "../entities/Tool";
 
-export class ToolController {
+class ToolController {
 
-    public index(_req: Request, res: Response): void {
+    index = (req: Request, res: Response) => {
         getRepository(Tool)
             .createQueryBuilder("tool")
             .leftJoinAndSelect("tool.tags", "tag")
-            .andWhere(_req.query.tag ? `tag = '${_req.query.tag}'` : "")
+            .andWhere(req.query.tag ? `tag = '${req.query.tag}'` : "")
             .getMany()
             .then((tools: Array<Tool>) => res.json(tools))
             .catch((err: Error) => {
@@ -17,7 +18,7 @@ export class ToolController {
             });
     }
 
-    public show(req: Request, res: Response, next: any): void {
+    show = (req: Request, res: Response) => {
         getRepository(Tool).findOne(req.params.id)
             .then((tool: Tool | undefined) => {
                 if (tool)
@@ -28,19 +29,29 @@ export class ToolController {
             .catch((err: Error) => res.status(500).json(err));
     }
 
-    public store(req: Request, res: Response, next: any): void {
+    store = async (req: Request, res: Response) => {
         const entity: Tool = req.body;
+        const errors = await validate(entity);
+        if (errors.length > 0) {
+            res.status(400).send(errors);
+            return;
+        }
         getRepository(Tool).save(entity).
             then((tool: Tool) => res.status(201).json(tool))
             .catch((err: Error) => res.status(500).json(err));
     }
 
-    public update(req: Request, res: Response): void {
+    update = (req: Request, res: Response) => {
         getRepository(Tool).findOne(req.params.id)
-            .then((tool: Tool | undefined) => {
+            .then(async (tool: Tool | undefined) => {
                 if (tool) {
                     const entity: Tool = req.body;
                     entity.id = tool.id;
+                    const errors = await validate(entity);
+                    if (errors.length > 0) {
+                        res.status(400).send(errors);
+                        return;
+                    }
                     getRepository(Tool).save(entity)
                         .then(() => res.status(202).json({ data: "success" }))
                         .catch((err: Error) => res.status(500).json(err));
@@ -50,8 +61,7 @@ export class ToolController {
             }).catch((err: Error) => res.status(500).json(err));
     }
 
-
-    public delete(req: Request, res: Response): void {
+    delete = (req: Request, res: Response) => {
         getRepository(Tool).findOne(req.params.id)
             .then((toolToRemove: Tool | undefined) => {
                 if (toolToRemove)
@@ -63,3 +73,5 @@ export class ToolController {
             }).catch((err: Error) => res.status(500).json(err));
     }
 }
+
+export default ToolController;
