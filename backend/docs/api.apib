@@ -37,9 +37,11 @@ The root URL is a response then elapsed time when the server started.
 + Request Store a new tool
 
     + Headers
-
+    
             Accept: application/json
             Content-Type: application/json
+            Authorization: (string, required) - Token JWT required to access
+
     + Attributes (Tool)
 
 + Response 201 (application/json)
@@ -52,6 +54,12 @@ The root URL is a response then elapsed time when the server started.
     + id: 1 (number, required) - ID of tool
 
 ### Show tool [GET]
+
++ Request Show tool
+
+    + Headers    
+
+            Authorization: (string, required) - Token JWT required to access
 
 + Response 200 (application/json)
     + Attributes (ToolCreated)
@@ -70,6 +78,8 @@ The root URL is a response then elapsed time when the server started.
 
             Accept: application/json
             Content-Type: application/json
+            Authorization: (string, required) - Token JWT required to access
+
     + Attributes (Tool)
 
 + Response 202 (application/json)
@@ -83,6 +93,11 @@ The root URL is a response then elapsed time when the server started.
 
 ### Delete tool [DELETE]
 
++ Request Delete tool
+
+    + Headers    
+
+            Authorization: (string, required) - Token JWT required to access
 + Response 204 (application/json)
     + Attributes (DataResponse)
 
