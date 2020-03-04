@@ -28,10 +28,6 @@ export class Routes {
             .get(AuthMiddleware, this.userController.index)
             .post(this.userController.store);
 
-        app.route("/users")
-            .get(AuthMiddleware, this.userController.index)
-            .post(this.userController.store);
-
         app.route("/users/:id")
             .get(AuthMiddleware, this.userController.show)
             .put(AuthMiddleware, this.userController.update)
