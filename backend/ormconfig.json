@@ -1,0 +1,25 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "username": "postgres",
+    "password": "postgres",
+    "database": "vuttr",
+    "port": 5433,
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+        "src/app/entities/**/*.ts"
+    ],
+    "migrations": [
+        "src/database/migrations/**/*.ts"
+    ],
+    "subscribers": [
+        "src/app/subscribers/**/*.ts"
+    ],
+    "migrationsTableName": "schema_tables",
+    "cli": {
+        "entitiesDir": "src/app/entities",
+        "migrationsDir": "src/database/migrations",
+        "subscribersDir": "src/app/subscribers"
+    }
+}
