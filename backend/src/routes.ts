@@ -1,10 +1,13 @@
 import express from "express";
-import { ToolController } from "./app/controllers/ToolController";
+import { AuthMiddleware } from "./app/middlewares/AuthMiddleware";
+import SessionController from "./app/controllers/SessionController";
+import ToolController from "./app/controllers/ToolController";
 import { ToolsTagsMiddleware } from "./app/middlewares/ToolsTagsMiddleware";
 import { ToolsTagsResponseMiddleware } from "./app/middlewares/ToolsTagsTransform";
-import { UserController } from "./app/controllers/UserController";
+import UserController from "./app/controllers/UserController";
 
 export class Routes {
+    public sessionController: SessionController = new SessionController();
     public toolController: ToolController = new ToolController();
     public userController: UserController = new UserController();
 
@@ -15,23 +18,33 @@ export class Routes {
             res.status(200).send(`The app VUTTR running at: ${process.uptime()}`);
         });
 
-        app.use(ToolsTagsResponseMiddleware)
-        app.route("/tools")
-            .get(this.toolController.index)
-            .post(ToolsTagsMiddleware, this.toolController.store);
+        app.route("/login")
+            .post(this.sessionController.login)
 
-        app.route("/tools/:id")
-            .get(this.toolController.show)
-            .put(ToolsTagsMiddleware, this.toolController.update)
-            .delete(this.toolController.delete);
+        app.route("/change-password")
+            .put(AuthMiddleware, this.sessionController.changePassword)
 
         app.route("/users")
-            .get(this.userController.index)
+            .get(AuthMiddleware, this.userController.index)
+            .post(this.userController.store);
+
+        app.route("/users")
+            .get(AuthMiddleware, this.userController.index)
             .post(this.userController.store);
 
         app.route("/users/:id")
-            .get(this.userController.show)
-            .put(this.userController.update)
-            .delete(this.userController.delete);
+            .get(AuthMiddleware, this.userController.show)
+            .put(AuthMiddleware, this.userController.update)
+            .delete(AuthMiddleware, this.userController.delete);
+
+        app.use(ToolsTagsResponseMiddleware)
+        app.route("/tools")
+            .get(this.toolController.index)
+            .post(AuthMiddleware, ToolsTagsMiddleware, this.toolController.store);
+
+        app.route("/tools/:id")
+            .get(AuthMiddleware, this.toolController.show)
+            .put(AuthMiddleware, ToolsTagsMiddleware, this.toolController.update)
+            .delete(AuthMiddleware, this.toolController.delete);
     }
 }
