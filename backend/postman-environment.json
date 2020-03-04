@@ -9,11 +9,16 @@
 		},
 		{
 			"key": "value_id",
-			"value": 4,
+			"value": "875e23af-6fa4-4d8f-80ec-0af6e2548b2b",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMjc1NGE0Mi1iYjBiLTQ1ODgtODc5NC1hZDdkM2Q5MjY2ODAiLCJ1c2VyTmFtZSI6ImFkbWluIiwiaWF0IjoxNTgzMzUwMTg0LCJleHAiOjE1ODMzNTM3ODR9.8mXfDzyLwl6m7w18bPnu6ZPxLdI93KzqDDm13O-o1XM",
 			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2020-02-26T21:00:47.665Z",
-	"_postman_exported_using": "Postman/7.18.0"
+	"_postman_exported_at": "2020-03-04T20:46:07.807Z",
+	"_postman_exported_using": "Postman/7.19.1"
 }
