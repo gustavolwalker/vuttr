@@ -40,7 +40,7 @@ Execute tests using JEST:
 yarn test
 ```
 
-If you want to execute dev tests we provide two files 'postman-environment.json' to configure enviroments variables and 'postman-vuttr.json' with a collection of tests;
+If you want to execute **tests in development enviroment** we provide two files 'postman-environment.json' to configure enviroments variables and 'postman-vuttr.json' with a collection of tests;
 
 ### Check API Documentation
 The API documentation is written using the [API Blueprint](https://apiblueprint.org/). I'm using [Aglio](https://github.com/danielgtaylor/aglio#readme) to read in a pretty format, we recommend to install it:
