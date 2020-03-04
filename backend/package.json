@@ -7,7 +7,7 @@
       "dev": "nodemon --watch 'src/' src/index.ts",
       "api-doc": "aglio -i docs/api.apib --theme-full-width --no-theme-condense -s -p 3003",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-      "pretest": "env-cmd -f ./.env.test yarn typeorm migration:run",
+      "pretest": "env-cmd -f ./.env.test yarn typeorm schema:sync; env-cmd -f ./.env.test yarn typeorm migration:run",
       "test": "env-cmd -f ./.env.test jest",
       "posttest": "env-cmd -f ./.env.test yarn typeorm schema:drop",
       "build": "tsc"
