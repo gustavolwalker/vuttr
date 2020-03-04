@@ -15,6 +15,55 @@ The root URL is a response then elapsed time when the server started.
 + Response 200 (application/text)
     + Attributes (string)
     
+# Group Session
+
+## Login [/login]
+
+### Logging in app [POST]
+
++ Request E-mail and password to loggin
+
+    + Headers
+    
+            Accept: application/json
+            Content-Type: application/json          
+
+    + Attributes 
+        + email: test@test.com (string, required) - A valid e-mail
+        + password: 1234 (string, required) - A password
+
++ Response 200 (application/json)
+    + Attributes 
+        + token: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c` (string) - A token JWT
+
+## Change-password [/change-password]
+
+### Change password [PUT]
+
++ Request
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+            Authorization: (string, required) - Token JWT required to access
+
+    + Attributes 
+        + oldPassword: 1234 (string, required) - A old password
+        + newPassword: 4321 (string, required) - A new password
+
++ Response 202 (application/json)
+    + Attributes (DataResponse)
+
++ Response 400 (application/json)
+    + Attributes (object)
+
++ Response 401 (application/json)
+    + Attributes (object)
+
++ Response 500 (application/text)
+    + Attributes (object)
+
 # Group Tools
 
 ## Tools [/tools?tag={tag}]
