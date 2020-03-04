@@ -4,6 +4,7 @@
    "description": "Backend para aplicação VUTTR (Very Useful Tools to Remember)",
    "license": "MIT",
    "scripts": {
+      "predev": "yarn typeorm schema:sync; yarn typeorm migration:run",
       "dev": "nodemon --watch 'src/' src/index.ts",
       "api-doc": "aglio -i docs/api.apib --theme-full-width --no-theme-condense -s -p 3003",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js",
