@@ -11,10 +11,10 @@ yarn install
 ```
 
 ### Create a dev database
-To create a dev database:
+To create a dev database (optional because this runing before 'yarn dev'):
 
 ```sh
-yarn typeorm migration:run
+yarn predev
 ```
 
 This command run migrations script's on a dev database (default: Postgresql at localhost:5433/vuttr), see '.env' to change it;
@@ -32,9 +32,6 @@ Execute in develpment mode using nodemon:
 ```sh
 yarn dev
 ```
-
-This script won't execute migrations, if necessary check [Create a dev database](#create-a-dev-database)
-
 
 ### Running tests 
 Execute tests using JEST:
