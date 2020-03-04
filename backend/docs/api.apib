@@ -157,6 +157,103 @@ The root URL is a response then elapsed time when the server started.
     + Attributes (object)
 
 
+# Group Users
+
+## Users [/users]
+
+### Index users [GET]
+
++ Request
+
+    + Headers
+    
+            Accept: application/json
+            Content-Type: application/json
+            Authorization: (string, required) - Token JWT required to access
+
++ Response 200 (application/json)
+    + Attributes (array[UserCreated])
+
++ Response 500 (application/text)
+    + Attributes (object)
+
+### Store user [POST]
+
++ Request Store a new user
+
+    + Headers
+    
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (User)
+
++ Response 201 (application/json)
+    + Attributes (UserCreated)
+
+
+## User [/users/{id}]
+
++ Parameters
+    + id: `d2734c42-bb0b-4588-87a4-fa7d3d926680` (string, required) - ID of user
+
+### Show user [GET]
+
++ Request Show user
+
+    + Headers    
+
+            Authorization: (string, required) - Token JWT required to access
+
++ Response 200 (application/json)
+    + Attributes (UserCreated)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/text)
+    + Attributes (object)
+
+### Update user [PUT]
+
++ Request Update user
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+            Authorization: (string, required) - Token JWT required to access
+
+    + Attributes (UserUpdate)
+
++ Response 202 (application/json)
+    + Attributes (DataResponse)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/text)
+    + Attributes (object)
+
+### Delete user [DELETE]
+
++ Request Delete user
+
+    + Headers    
+
+            Authorization: (string, required) - Token JWT required to access
+
++ Response 204 (application/json)
+    + Attributes (DataResponse)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/text)
+    + Attributes (object)
+
+
+
 # Data Structures
 
 ## Tool (object)
@@ -167,6 +264,22 @@ The root URL is a response then elapsed time when the server started.
 
 ## ToolCreated (Tool)
 + id (number) - Identification value of tool
++ created_at: `2020-02-26T17:22:47.968Z` (string) - Date of created, a timestamp on UTC
++ updated_at: `2020-02-26T17:22:47.968Z` (string) - Date of last updated, a timestamp on UTC
+
+## User (object)
++ name: Fulano (string) - Name of user
++ email: fulano@company.com (string) - E-mail address of user
++ password: 1234 (string) - A password for user
+
+## UserUpdate (object)
++ name: Fulano da Silva (string) - Name of user
++ email: fulano@company.com (string) - E-mail address of user
+
+## UserCreated (object)
++ id: `d2734c42-bb0b-4588-87a4-fa7d3d926680` (string) - Identification value of user
++ name: Fulano (string) - Name of user
++ email: fulano@company.com (string) - E-mail address of user
 + created_at: `2020-02-26T17:22:47.968Z` (string) - Date of created, a timestamp on UTC
 + updated_at: `2020-02-26T17:22:47.968Z` (string) - Date of last updated, a timestamp on UTC
 
