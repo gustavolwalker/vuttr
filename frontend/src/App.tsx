@@ -9,14 +9,17 @@ import Tool from "./components/tool";
 import Alert from './components/alert';
 
 const App: React.FC = () => {
-  const service = new ToolsService();
+  const [service] = useState(new ToolsService());
   const [tools, setTools] = useState<ITool[]>([]);
   const [error, setError] = useState<string>();
 
   useEffect(() => {
     service.getAll()
-      .then(results => { setTools(results.data) })
-      .catch((err: Error) => {
+      .then(results => {
+        console.log('teste');
+        setError(undefined);
+        setTools(results.data)
+      }).catch(() => {
         setError("Server unavalible, please check your network connections.");
       });
   }, [service]);
@@ -55,8 +58,8 @@ const App: React.FC = () => {
           </fieldset>
         </form>
         <div className="pure-g">
-          <div className="pure-u-1">            
-            <Alert message={error} type="error"/>
+          <div className="pure-u-1">
+            <Alert message={error} type="error" />
             {tools && tools.map(tool =>
               <Tool key={tool.id} tool={tool} handleRemove={handleRemove} />
             )}

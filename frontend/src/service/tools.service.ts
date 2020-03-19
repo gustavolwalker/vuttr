@@ -10,11 +10,11 @@ export interface ITool {
 
 class ToolsService {
 
-    get = (id: number) => {
+    get(id: number) {
         return api.get<ITool>(`/tools/${id}`);
     }
 
-    getAll = () => {
+    getAll() {
         return api.get<ITool[]>('/tools');
     }
 
