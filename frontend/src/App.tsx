@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { isAuthenticated } from './service/auth';
 import { ToolsService, ITool } from './service/tools.service';
-import { Tool } from "./components/tool";
 
 import './App.css';
 import './Modal.css';
-import { Header } from './components/header';
+import Header from './components/header';
+import Tool from "./components/tool";
 
 const App: React.FC = () => {
   const service = new ToolsService();
@@ -66,6 +66,6 @@ const App: React.FC = () => {
       </div>
     </>
   );
-}
+};
 
 export default App;

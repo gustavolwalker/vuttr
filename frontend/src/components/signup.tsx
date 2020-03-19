@@ -97,4 +97,4 @@ const Signup: React.FC = () => {
     )
 };
 
-export { Signup }
+export default Signup;

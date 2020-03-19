@@ -29,4 +29,5 @@ const Tool: React.FC<Props> = ({ tool, handleRemove }) => (
         </div>
     </div >
 );
-export { Tool };
+
+export default Tool;

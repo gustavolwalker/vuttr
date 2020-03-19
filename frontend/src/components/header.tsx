@@ -1,8 +1,8 @@
 import React from 'react';
 import { isAuthenticated, logout, getUserName } from '../service/auth';
 
-import { Signin } from './signin';
-import { Signup } from './signup';
+import Signin from './signin';
+import Signup from './signup';
 
 const Header: React.FC = () => {
 
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
                     <li className="pure-menu-item" hidden={isAuthenticated()}>
                         <a href="#signup" className="pure-menu-link" data-toggle="modal">Sign up</a>
                     </li>
-                    <li className="pure-menu-item" hidden={!isAuthenticated()}>                        
+                    <li className="pure-menu-item" hidden={!isAuthenticated()}>
                         <button onClick={handleSignout} className="pure-menu-link">{getUserName()} (Sign out)</button>
                     </li>
                 </ul>
@@ -33,5 +33,6 @@ const Header: React.FC = () => {
             <Signup />
         </>
     );
-}
-export { Header }
+};
+
+export default Header;
