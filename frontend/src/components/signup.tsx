@@ -2,20 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import api from '../service/api';
 import { AxiosError } from 'axios';
 import Alert from './alert';
-
-type validate = {
-    property: string;
-    constraints: {
-        [type: string]: string;
-    };
-}
+import { IValidate } from '../service/validate.service';
 
 const Signup: React.FC = () => {
     const [name, setName] = useState<string>();
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [error, setError] = useState<string>();
-    const [inputErrors, setInputErrors] = useState<validate[]>();
+    const [inputErrors, setInputErrors] = useState<IValidate[]>();
     const signupForm = useRef<HTMLFormElement>(null);
     const signupBack = useRef<HTMLButtonElement>(null);
 
