@@ -6,6 +6,7 @@ import './App.css';
 import './Modal.css';
 import Header from './components/header';
 import Tool from "./components/tool";
+import Alert from './components/alert';
 
 const App: React.FC = () => {
   const service = new ToolsService();
@@ -54,10 +55,8 @@ const App: React.FC = () => {
           </fieldset>
         </form>
         <div className="pure-g">
-          <div className="pure-u-1">
-            {error &&
-              <div className="alert error">{error}</div>
-            }
+          <div className="pure-u-1">            
+            <Alert message={error} type="error"/>
             {tools && tools.map(tool =>
               <Tool key={tool.id} tool={tool} handleRemove={handleRemove} />
             )}

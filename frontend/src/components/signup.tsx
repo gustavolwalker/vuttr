@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import api from '../service/api';
 import { AxiosError } from 'axios';
+import Alert from './alert';
 
 type validate = {
     property: string;
@@ -52,9 +53,7 @@ const Signup: React.FC = () => {
                 <h3 id="signupLabel">Sign up to VUTTR</h3>
                 <form ref={signupForm} className="sign pure-form pure-form-stacked">
                     <fieldset>
-                        {error &&
-                            <div className="alert error">{error}</div>
-                        }
+                        <Alert message={error} type="error" />
                         <label htmlFor="name">Full name *</label>
                         <input id="name" name="name" type="text" placeholder="Required..." onChange={(ev: React.ChangeEvent<HTMLInputElement>): void => { setName(ev.target.value); }} required />
                         <div className="pure-g">

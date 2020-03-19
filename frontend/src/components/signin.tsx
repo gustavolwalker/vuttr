@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { login } from '../service/auth';
 import api from '../service/api';
 import { AxiosError } from 'axios';
+import Alert from './alert';
 
 const Signin: React.FC = () => {
     const [email, setEmail] = useState<string>();
@@ -38,16 +39,14 @@ const Signin: React.FC = () => {
                 <p>Please type your e-mail and password to sign in:</p>
                 <form className="sign pure-form pure-form-stacked">
                     <fieldset>
-                        {error &&
-                            <div className="alert error">{error}</div>
-                        }
+                        <Alert message={error} type="error" />
                         <input name="email" type="email" placeholder="E-mail" onChange={(ev: React.ChangeEvent<HTMLInputElement>): void => { setEmail(ev.target.value); }} />
                         <input name="password" type="password" placeholder="Password" onChange={(ev: React.ChangeEvent<HTMLInputElement>): void => { setPassword(ev.target.value); }} />
                         <button onClick={handleSignin} className="pure-button pure-button-primary">Sign in</button><br />
                     </fieldset>
                 </form>
-            <button id="signinBack" ref={signinBack} role="link" className="pure-button pure-button-primary" data-dismiss="modal" aria-hidden="true">voltar</button>
-        </div>
+                <button id="signinBack" ref={signinBack} role="link" className="pure-button pure-button-primary" data-dismiss="modal" aria-hidden="true">voltar</button>
+            </div>
         </div >
     )
 };
