@@ -47,6 +47,10 @@ h5 {
     text-align: center;
 }
 
+.rigth {
+    text-align: right;
+}
+
 .content {
     margin-left: auto;
     margin-right: auto;

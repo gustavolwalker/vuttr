@@ -7,6 +7,7 @@ import './Modal.css';
 import Header from './components/header';
 import Tool from "./components/tool";
 import Alert from './components/alert';
+import ToolForm from './components/tool.form';
 
 const App: React.FC = () => {
   const [service] = useState(new ToolsService());
@@ -16,17 +17,12 @@ const App: React.FC = () => {
   useEffect(() => {
     service.getAll()
       .then(results => {
-        console.log('teste');
         setError(undefined);
         setTools(results.data)
       }).catch(() => {
         setError("Server unavalible, please check your network connections.");
       });
   }, [service]);
-
-  const handleAdd = () => {
-    alert('adicionar')
-  }
 
   const handleRemove = (tool: ITool) => {
     if (window.confirm(`Are you sure you want to remove ${tool.title} ?`))
@@ -52,7 +48,7 @@ const App: React.FC = () => {
               </label>
               </div>
               <div className="pure-u-3-24" style={{ textAlign: "right" }}>
-                <button type="button" className="pure-button pure-button-primary" onClick={handleAdd} hidden={!isAuthenticated()}>+ Add</button>
+                <a href="#tool" className="pure-button pure-button-primary" hidden={!isAuthenticated()} data-toggle="modal">+ Add</a>
               </div>
             </div>
           </fieldset>
@@ -66,6 +62,7 @@ const App: React.FC = () => {
           </div>
         </div>
       </div>
+      <ToolForm />
     </>
   );
 };
