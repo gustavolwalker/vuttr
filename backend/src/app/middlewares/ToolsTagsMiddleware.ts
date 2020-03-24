@@ -6,9 +6,15 @@ export const ToolsTagsMiddleware = (req: Request, res: Response, next: NextFunct
     if (req.path.includes('/tools')) {
         const entity: Tool = req.body;
         if (entity?.tags?.length) {
-            entity.tags = entity.tags.map((tag: Tag | string) =>
-                (tag instanceof Tag ? tag : { tag })
-            );
+            entity.tags = entity.tags.map((tag: Tag | string) => {
+                let result: Tag;
+                if (tag instanceof Tag) {
+                    tag.tag = tag.tag.toLowerCase();
+                    result = tag;
+                } else
+                    result = { tag: tag.toLowerCase() }
+                return result;
+            });
         }
     }
     return next();
