@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from "typeorm";
 import { Tag } from "./Tag";
-import { Min, IsUrl } from "class-validator";
+import { IsUrl, Length } from "class-validator";
 
 @Entity()
 export class Tool {
@@ -8,7 +8,7 @@ export class Tool {
     @PrimaryGeneratedColumn()
     public id!: number;
 
-    @Min(3)
+    @Length(3,255)
     @Column()
     public title!: string;
 
@@ -16,9 +16,10 @@ export class Tool {
     @Column()
     public link!: string;
 
+    @Length(3,255)
     @Column()
     public description!: string;
-
+    
     @ManyToMany(type => Tag, { cascade: ["insert"], eager: true })
     @JoinTable()
     public tags!: Tag[];

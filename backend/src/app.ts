@@ -1,6 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import "reflect-metadata";
+import "es6-shim";
 import { Routes } from "./routes";
 
 class App {

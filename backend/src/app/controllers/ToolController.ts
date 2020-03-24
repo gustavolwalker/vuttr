@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { validate } from "class-validator";
+import { plainToClass } from "class-transformer";
+
 import { Tool } from "../entities/Tool";
 
 class ToolController {
@@ -30,7 +32,7 @@ class ToolController {
     }
 
     store = async (req: Request, res: Response) => {
-        const entity: Tool = req.body;
+        const entity: Tool = plainToClass(Tool, req.body);        
         const errors = await validate(entity);
         if (errors.length > 0) {
             res.status(400).send(errors);
@@ -45,7 +47,7 @@ class ToolController {
         getRepository(Tool).findOne(req.params.id)
             .then(async (tool: Tool | undefined) => {
                 if (tool) {
-                    const entity: Tool = req.body;
+                    const entity: Tool = plainToClass(Tool, req.body);
                     entity.id = tool.id;
                     const errors = await validate(entity);
                     if (errors.length > 0) {
