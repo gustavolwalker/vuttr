@@ -8,7 +8,6 @@ workspace.code-workspace
 
 # lib
 **/node_modules
-**/yarn.lock
 
 # build
 **/dist
