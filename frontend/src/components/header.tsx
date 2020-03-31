@@ -1,5 +1,5 @@
 import React from 'react';
-import { isAuthenticated, logout, getUserName } from '../service/auth';
+import { isAuthenticated, logout, getUserName } from '../services/auth';
 
 import Signin from './signin';
 import Signup from './signup';

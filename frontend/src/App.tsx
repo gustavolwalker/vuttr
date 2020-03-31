@@ -8,6 +8,8 @@ import Header from './components/header';
 import Tool from "./components/tool";
 import Alert from './components/alert';
 import ToolForm from './components/tool.form';
+import { isAuthenticated } from './services/auth';
+import { ITool, ToolsService } from './services/tools.service';
 
 const App: React.FC = () => {
   const [service] = useState(new ToolsService());

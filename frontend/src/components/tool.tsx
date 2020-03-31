@@ -1,6 +1,6 @@
 import React from 'react';
-import { ITool } from '../service/tools.service';
-import { isAuthenticated } from '../service/auth';
+import { isAuthenticated } from '../services/auth';
+import { ITool } from '../services/tools.service';
 
 type Props = {
     tool: ITool,

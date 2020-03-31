@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { login } from '../service/auth';
-import api from '../service/api';
+import { login } from '../services/auth';
+import api from '../services/api';
 import { AxiosError } from 'axios';
 import Alert from './alert';
 

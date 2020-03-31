@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import api from '../service/api';
+import api from '../services/api';
 import { AxiosError } from 'axios';
 import Alert from './alert';
-import { IValidate } from '../service/validate.service';
+import { IValidate } from '../services/validate.service';
 
 const Signup: React.FC = () => {
     const [name, setName] = useState<string>();

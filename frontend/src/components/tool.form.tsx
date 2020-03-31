@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ITool } from '../service/tools.service';
-import api from '../service/api';
+import { ITool } from '../services/tools.service';
+import api from '../services/api';
 import { AxiosError } from 'axios';
 import Alert from './alert';
-import { IValidate } from '../service/validate.service';
+import { IValidate } from '../services/validate.service';
 
 const ToolForm: React.FC = () => {
     const [tool, setTool] = useState<ITool | Object>();
