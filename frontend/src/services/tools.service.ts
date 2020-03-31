@@ -1,7 +1,7 @@
 import api from "./api";
 
 export interface ITool {
-    id: number,
+    id?: number,
     title: string,
     link: string,
     description: string,
@@ -16,6 +16,10 @@ class ToolsService {
 
     getAll() {
         return api.get<ITool[]>('/tools');
+    }
+
+    create(tool: ITool) {
+        return api.post<ITool>("/tools", tool);
     }
 
     remove(id: number) {

@@ -1,12 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ITool } from '../services/tools.service';
-import api from '../services/api';
 import { AxiosError } from 'axios';
-import Alert from './alert';
+import React, { useEffect, useRef, useState } from 'react';
+import { ITool, ToolsService } from '../services/tools.service';
 import { IValidate } from '../services/validate.service';
+import Alert from './alert';
 
 const ToolForm: React.FC = () => {
-    const [tool, setTool] = useState<ITool | Object>();
+    const [service] = useState(new ToolsService());
+    const [title, setTitle] = useState<string>('');
+    const [link, setLink] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+    const [tags, setTags] = useState<string[]>([]);
+
     const [error, setError] = useState<string>();
     const [inputErrors, setInputErrors] = useState<IValidate[]>();
     const toolForm = useRef<HTMLFormElement>(null);
@@ -15,20 +19,22 @@ const ToolForm: React.FC = () => {
         toolForm.current?.reset();
     }, []);
 
-    const handleChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        const { name, value } = ev.target;
-        if (name !== "tags")
-            setTool((tool) => ({ ...tool, [name]: value }));
-        else {
-            setTool((tool) => ({ ...tool, tags: value.replace(", ", " ").replace(",", "").split(" ") }));
-        }
+    const handleTags = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+        const { value } = ev.target;
+            setTags(value.replace(", ", " ").replace(",", "").split(" "));        
     }
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
-        console.log(tool)
-        await api.post("/tools", { ...tool })
+        const tool: ITool = {
+            title,
+            link,
+            description,
+            tags
+        }
+        console.log(tool)        
+        await service.create(tool)
             .then(response => {
                 if (response.status === 201) {
                     toolForm.current?.reset();
@@ -54,7 +60,7 @@ const ToolForm: React.FC = () => {
                         <div className="pure-g">
                             <div className="pure-u-1">
                                 <label htmlFor="title">Tool Name *</label>
-                                <input id="title" name="title" type="text" placeholder="Required..." onChange={handleChange} required className="pure-u-1" />
+                                <input id="title" name="title" type="text" placeholder="Required..." onChange={e => setTitle(e.target.value)} required className="pure-u-1" />
                                 {inputErrors && inputErrors.map(erro =>
                                     (erro.property === "title" &&
                                         Object.values(erro.constraints).map((value) => (
@@ -67,7 +73,7 @@ const ToolForm: React.FC = () => {
                         <div className="pure-g">
                             <div className="pure-u-1">
                                 <label htmlFor="link">Tool Link *</label>
-                                <input id="link" name="link" type="text" placeholder="Required..." onChange={handleChange} required className="pure-u-1" />
+                                <input id="link" name="link" type="text" placeholder="Required..." onChange={e => setLink(e.target.value)} required className="pure-u-1" />
                                 {inputErrors && inputErrors.map(erro =>
                                     (erro.property === "link" &&
                                         Object.values(erro.constraints).map((value) => (
@@ -80,7 +86,7 @@ const ToolForm: React.FC = () => {
                         <div className="pure-g">
                             <div className="pure-u-1">
                                 <label htmlFor="description">Tool description *</label>
-                                <textarea id="description" name="description" onChange={handleChange} required className="pure-u-1" />
+                                <textarea id="description" name="description" onChange={e => setDescription(e.target.value)} required className="pure-u-1" />
                                 {inputErrors && inputErrors.map(erro =>
                                     (erro.property === "description" &&
                                         Object.values(erro.constraints).map((value) => (
@@ -93,7 +99,7 @@ const ToolForm: React.FC = () => {
                         <div className="pure-g">
                             <div className="pure-u-1">
                                 <label htmlFor="tags">Tags</label>
-                                <input id="tags" name="tags" type="text" placeholder="Required..." onChange={handleChange} required className="pure-u-1" />
+                                <input id="tags" name="tags" type="text" placeholder="Required..." onChange={handleTags} required className="pure-u-1" />
                                 {inputErrors && inputErrors.map(erro =>
                                     (erro.property === "tags" &&
                                         Object.values(erro.constraints).map((value) => (
