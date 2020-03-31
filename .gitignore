@@ -4,6 +4,7 @@
 
 #editors conf
 **/.vscode
+workspace.code-workspace
 
 # lib
 **/node_modules
