@@ -58,7 +58,7 @@ const ToolForm: React.FC = () => {
                                 {inputErrors && inputErrors.map(erro =>
                                     (erro.property === "title" &&
                                         Object.values(erro.constraints).map((value) => (
-                                            <small className="error">{value}</small>
+                                            <div className="pure-u-1 rigth"><div className="pure-u-1 rigth"><small className="error">{value}</small></div></div>
                                         ))
                                     )
                                 )}
@@ -71,7 +71,7 @@ const ToolForm: React.FC = () => {
                                 {inputErrors && inputErrors.map(erro =>
                                     (erro.property === "link" &&
                                         Object.values(erro.constraints).map((value) => (
-                                            <small className="error">{value}</small>
+                                            <div className="pure-u-1 rigth"><small className="error">{value}</small></div>
                                         ))
                                     )
                                 )}
@@ -84,7 +84,7 @@ const ToolForm: React.FC = () => {
                                 {inputErrors && inputErrors.map(erro =>
                                     (erro.property === "description" &&
                                         Object.values(erro.constraints).map((value) => (
-                                            <small className="error">{value}</small>
+                                            <div className="pure-u-1 rigth"><small className="error">{value}</small></div>
                                         ))
                                     )
                                 )}
@@ -97,7 +97,7 @@ const ToolForm: React.FC = () => {
                                 {inputErrors && inputErrors.map(erro =>
                                     (erro.property === "tags" &&
                                         Object.values(erro.constraints).map((value) => (
-                                            <small className="error">{value}</small>
+                                            <div className="pure-u-1 rigth"><small className="error">{value}</small></div>
                                         ))
                                     )
                                 )}
