@@ -9,7 +9,7 @@ type Props = {
 
 const Tool: React.FC<Props> = ({ tool, handleRemove }) => {
 
-    const normalizeLink = (link:string) =>{
+    const normalizeLink = (link: string) => {
         return link.includes("//") ? link : "//".concat(link);
     }
 

@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { isAuthenticated } from './service/auth';
-import { ToolsService, ITool } from './service/tools.service';
-
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import './Modal.css';
+import Alert from './components/alert';
 import Header from './components/header';
 import Tool from "./components/tool";
-import Alert from './components/alert';
 import ToolForm from './components/tool.form';
+import './Modal.css';
 import { isAuthenticated } from './services/auth';
 import { ITool, ToolsService } from './services/tools.service';
+import ToolRemove from './components/tool.remove';
 
 const App: React.FC = () => {
+  const [tool, setTool] = useState<ITool>();
   const [service] = useState(new ToolsService());
   const [tools, setTools] = useState<ITool[]>([]);
   const [error, setError] = useState<string>();
@@ -27,10 +26,10 @@ const App: React.FC = () => {
   }, [service]);
 
   const handleRemove = (tool: ITool) => {
-    if (window.confirm(`Are you sure you want to remove ${tool.title} ?`))
-      service.remove(tool.id)
-        .then(() => setTools(tools.filter(fTool => fTool.id !== tool.id)))
-        .catch(err => alert(err.message))
+    if (tool && tool.id) {
+      setTool(tool);
+      $('#toolRemove').modal('show');
+    }
   }
 
   return (
@@ -65,6 +64,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <ToolForm />
+      <ToolRemove tool={tool} />
     </>
   );
 };
