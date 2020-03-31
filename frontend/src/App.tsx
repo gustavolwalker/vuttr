@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import './App.css';
 import Alert from './components/alert';
 import Header from './components/header';
 import Tool from "./components/tool";
 import ToolForm from './components/tool.form';
-import './Modal.css';
-import { isAuthenticated } from './services/auth';
-import { ITool, ToolsService } from './services/tools.service';
 import ToolRemove from './components/tool.remove';
+import './Modal.css';
+import { ITool, ToolsService } from './services/tools.service';
+import { AppContext, AppReducer, initialState } from './store';
 
 const App: React.FC = () => {
   const [tool, setTool] = useState<ITool>();
   const [service] = useState(new ToolsService());
-  const [tools, setTools] = useState<ITool[]>([]);
-  const [error, setError] = useState<string>();
+  const [state, dispatch] = useReducer(AppReducer, initialState);
 
   useEffect(() => {
     service.getAll()
       .then(results => {
-        setError(undefined);
-        setTools(results.data)
+        dispatch({ type: 'tools', values: results.data });
       }).catch(() => {
-        setError("Server unavalible, please check your network connections.");
+        dispatch({ type: 'error', error: 'Server unavalible, please check your network connections.' });
       });
   }, [service]);
 
@@ -33,7 +31,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <>
+    <AppContext.Provider value={{ state, dispatch }} >
       <Header />
       <div className="content">
         <div className="pure-g">
@@ -49,15 +47,15 @@ const App: React.FC = () => {
               </label>
               </div>
               <div className="pure-u-3-24" style={{ textAlign: "right" }}>
-                <a href="#tool" className="pure-button pure-button-primary" hidden={!isAuthenticated()} data-toggle="modal">+ Add</a>
+                <a href="#tool" className="pure-button pure-button-primary" hidden={!state.isLogged} data-toggle="modal">+ Add</a>
               </div>
             </div>
           </fieldset>
         </form>
         <div className="pure-g">
           <div className="pure-u-1">
-            <Alert message={error} type="error" />
-            {tools && tools.map(tool =>
+            <Alert message={state.error} type="error" />
+            {state.tools && state.tools.map(tool =>
               <Tool key={tool.id} tool={tool} handleRemove={handleRemove} />
             )}
           </div>
@@ -65,7 +63,7 @@ const App: React.FC = () => {
       </div>
       <ToolForm />
       <ToolRemove tool={tool} />
-    </>
+    </AppContext.Provider>
   );
 };
 

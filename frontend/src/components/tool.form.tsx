@@ -1,7 +1,8 @@
 import { AxiosError } from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ITool, ToolsService } from '../services/tools.service';
 import { IValidate } from '../services/validate.service';
+import { AppContext } from '../store';
 import Alert from './alert';
 
 const ToolForm: React.FC = () => {
@@ -10,10 +11,10 @@ const ToolForm: React.FC = () => {
     const [link, setLink] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
-
     const [error, setError] = useState<string>();
     const [inputErrors, setInputErrors] = useState<IValidate[]>();
     const toolForm = useRef<HTMLFormElement>(null);
+    const { state, dispatch } = useContext(AppContext);
 
     useEffect(() => {
         toolForm.current?.reset();
@@ -21,7 +22,7 @@ const ToolForm: React.FC = () => {
 
     const handleTags = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         const { value } = ev.target;
-            setTags(value.replace(", ", " ").replace(",", "").split(" "));        
+        setTags(value.replace(", ", " ").replace(",", "").split(" "));
     }
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -33,10 +34,12 @@ const ToolForm: React.FC = () => {
             description,
             tags
         }
-        console.log(tool)        
+        console.log(tool)
         await service.create(tool)
             .then(response => {
                 if (response.status === 201) {
+                    state.tools.push(response.data);
+                    dispatch({ type: 'tools', values: state.tools })
                     toolForm.current?.reset();
                     $('#tool').modal('hide');
                 }

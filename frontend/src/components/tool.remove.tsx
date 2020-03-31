@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ITool, ToolsService } from '../services/tools.service';
+import { AppContext } from '../store';
 
 type Props = {
     tool?: ITool,
@@ -7,13 +8,16 @@ type Props = {
 
 const ToolRemove: React.FC<Props> = ({ tool }) => {
     const [service] = useState(new ToolsService());
+    const { state, dispatch } = useContext(AppContext);
 
     const handleConfirm = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        if (tool && tool.id)
+        if (tool && tool.id) {
             await service.remove(tool!.id)
-                .then(() => { $('#toolRemove').modal('hide'); })
-                .catch(err => alert(err.message))
+                .then(() => dispatch({ type: 'tools', values: state.tools.filter(value => value.id !== tool.id) })
+                ).catch(err => dispatch({ type: 'error', error: err.message }));
+            $('#toolRemove').modal('hide');
+        }
     }
 
     return (

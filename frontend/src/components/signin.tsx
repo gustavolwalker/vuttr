@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react';
-import { login } from '../services/auth';
-import api from '../services/api';
 import { AxiosError } from 'axios';
+import React, { useContext, useState } from 'react';
+import api from '../services/api';
+import { login } from '../services/auth';
+import { AppContext } from '../store';
 import Alert from './alert';
 
 const Signin: React.FC = () => {
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [error, setError] = useState<string>();
-    const signinBack = useRef<HTMLButtonElement>(null);
+    const { dispatch } = useContext(AppContext);
 
     const handleSignin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -20,7 +21,8 @@ const Signin: React.FC = () => {
                 .then(response => {
                     if (response.status === 200) {
                         login(response.data.token);
-                        signinBack.current?.click();
+                        dispatch({ type: 'logged', value: true });
+                        $('#signin').modal('hide');
                     }
                 }).catch((err: AxiosError) => {
                     if (err.response && err.response.status === 401) {
@@ -45,7 +47,7 @@ const Signin: React.FC = () => {
                         <button onClick={handleSignin} className="pure-button pure-button-primary">Sign in</button><br />
                     </fieldset>
                 </form>
-                <button id="signinBack" ref={signinBack} role="link" className="pure-button pure-button-primary" data-dismiss="modal" aria-hidden="true">voltar</button>
+                <button id="signinBack" role="link" className="pure-button pure-button-primary" data-dismiss="modal" aria-hidden="true">voltar</button>
             </div>
         </div >
     )
