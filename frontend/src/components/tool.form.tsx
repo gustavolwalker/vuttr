@@ -10,7 +10,6 @@ const ToolForm: React.FC = () => {
     const [error, setError] = useState<string>();
     const [inputErrors, setInputErrors] = useState<IValidate[]>();
     const toolForm = useRef<HTMLFormElement>(null);
-    const toolBack = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
         toolForm.current?.reset();
@@ -21,7 +20,7 @@ const ToolForm: React.FC = () => {
         if (name !== "tags")
             setTool((tool) => ({ ...tool, [name]: value }));
         else {
-            setTool((tool) => ({ ...tool, tags: value.replace(", "," ").replace(",","").split(" ") }));
+            setTool((tool) => ({ ...tool, tags: value.replace(", ", " ").replace(",", "").split(" ") }));
         }
     }
 
@@ -33,7 +32,7 @@ const ToolForm: React.FC = () => {
             .then(response => {
                 if (response.status === 201) {
                     toolForm.current?.reset();
-                    toolBack.current?.click();
+                    $('#tool').modal('hide');
                 }
             }).catch((err: AxiosError) => {
                 if (err.response && err.response.status === 400) {
@@ -111,7 +110,6 @@ const ToolForm: React.FC = () => {
                         </div>
                     </fieldset>
                 </form>
-                <button id="toolBack" ref={toolBack} role="link" className="pure-button pure-button-primary" data-dismiss="modal" aria-hidden="true">voltar</button>
             </div>
         </div>
     )
