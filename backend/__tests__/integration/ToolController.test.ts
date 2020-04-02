@@ -4,13 +4,15 @@ import { Server } from "http";
 import startServer from "../../src/server";
 import truncate from "../utils/truncate";
 import { Tool } from "../../src/app/entities/Tool";
+import { getRepository } from "typeorm";
+import { plainToClass } from "class-transformer";
 
 describe('ToolController', () => {
 
     let app: Server;
     let token: string;
 
-    const tool = {
+    const toolSample = {
         title: "New tool",
         link: "http://link.com/",
         description: "description for new tool"
@@ -36,49 +38,48 @@ describe('ToolController', () => {
         expect(response.status).toBe(200);
     });
 
-    it(`should index tools filtered`, async () => {
-        let response = await request(app)
-            .post('/tools')
-            .send({ ...tool, title: 'Tool 1', tags: ["node", "http"] })
-            .set('Authorization', `Bearer ${token}`);
 
-        expect(response.status).toBe(201);
+    it(`should index tools filtered by query`, async () => {
+        await getRepository(Tool).save(
+            [
+                plainToClass(Tool, { ...toolSample, title: 'Tool 1', tags: [{ tag: "node" }, { tag: "http" }] }),
+                plainToClass(Tool, { ...toolSample, title: 'Tool 2', tags: [{ tag: "node" }, { tag: "https" }] }),
+                plainToClass(Tool, { ...toolSample, title: 'Tool 3', tags: [{ tag: "www" }, { tag: "https" }] })
+            ]
+        ).then(async res => {
+            const response = await request(app).get('/tools?q=tool 2');
 
-        response = await request(app)
-            .post('/tools')
-            .send({ ...tool, title: 'Tool 2', tags: ["node", "https"] })
-            .set('Authorization', `Bearer ${token}`);
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveLength(1);
+        });
+    });
 
-        expect(response.status).toBe(201);
+    it(`should index tools filtered by tag`, async () => {
+        await getRepository(Tool).save(
+            [
+                plainToClass(Tool, { ...toolSample, title: 'Tool 1', tags: [{ tag: "node" }, { tag: "http" }] }),
+                plainToClass(Tool, { ...toolSample, title: 'Tool 2', tags: [{ tag: "node" }, { tag: "https" }] }),
+                plainToClass(Tool, { ...toolSample, title: 'Tool 3', tags: [{ tag: "www" }, { tag: "https" }] })
+            ]
+        ).then(async res => {
+            const response = await request(app).get('/tools?tag=node');
 
-        response = await request(app)
-            .post('/tools')
-            .send({ ...tool, title: 'Tool 3', tags: ["www", "https"] })
-            .set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).toBe(201);
-
-        response = await request(app).get('/tools?tag=node');
-
-        expect(response.status).toBe(200);
-        expect(response.body).toHaveLength(2);
+            expect(response.status).toBe(200);
+            expect(response.body).toHaveLength(2);
+        });
     });
 
     it(`should tool exits`, async () => {
-        let response = await request(app)
-            .post('/tools')
-            .send(tool)
-            .set('Authorization', `Bearer ${token}`);
+        await getRepository(Tool)
+            .save(plainToClass(Tool, toolSample))
+            .then(async tool => {
+                const response = await request(app)
+                    .get(`/tools/${tool.id}`)
+                    .set('Authorization', `Bearer ${token}`);
 
-        expect(response.status).toBe(201);
-
-        const { id } = response.body;
-        response = await request(app)
-            .get(`/tools/${id}`)
-            .set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).toBe(200);
-        expect(response.body).not.toBeNull();
+                expect(response.status).toBe(200);
+                expect(response.body).not.toBeNull();
+            });
     });
 
     it(`should tool not exits`, async () => {
@@ -92,24 +93,21 @@ describe('ToolController', () => {
     });
 
     it(`shouldn't show tool without authorization`, async () => {
-        let response = await request(app)
-            .post('/tools')
-            .send(tool)
-            .set('Authorization', `Bearer ${token}`);
+        await getRepository(Tool)
+            .save(plainToClass(Tool, toolSample))
+            .then(async tool => {
 
-        expect(response.status).toBe(201);
+                const response = await request(app)
+                    .get(`/tools/${tool.id}`)
 
-        const { id } = response.body;
-        response = await request(app)
-            .get(`/tools/${id}`)
-
-        expect(response.status).toBe(401);
+                expect(response.status).toBe(401);
+            });
     });
 
     it(`should to store new tool`, async () => {
         const response = await request(app)
             .post('/tools')
-            .send(tool)
+            .send(toolSample)
             .set('Authorization', `Bearer ${token}`);
 
         expect(response.status).toBe(201);
@@ -121,75 +119,63 @@ describe('ToolController', () => {
     it(`shouldn't store new tool without authorization`, async () => {
         const response = await request(app)
             .post('/tools')
-            .send(tool)
+            .send(toolSample)
 
         expect(response.status).toBe(401);
     });
 
     it(`should to update stored tool`, async () => {
-        let response = await request(app)
-            .post('/tools')
-            .send(tool)
-            .set('Authorization', `Bearer ${token}`);
+        await getRepository(Tool)
+            .save(plainToClass(Tool, toolSample))
+            .then(async tool => {
+                tool.description = "description changed";
 
-        expect(response.status).toBe(201);
+                const response = await request(app)
+                    .put(`/tools/${tool.id}`)
+                    .send(tool)
+                    .set('Authorization', `Bearer ${token}`);
 
-        let toolUpdate: Tool = response.body;
-        toolUpdate.description = "description changed";
-        response = await request(app)
-            .put(`/tools/${toolUpdate.id}`)
-            .send(toolUpdate)
-            .set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).toBe(202);
+                expect(response.status).toBe(202);
+            });
     });
 
     it(`shouldn't update stored tool without authorization`, async () => {
-        let response = await request(app)
-            .post('/tools')
-            .send(tool)
-            .set('Authorization', `Bearer ${token}`);
+        await getRepository(Tool)
+            .save(plainToClass(Tool, toolSample))
+            .then(async tool => {
 
-        expect(response.status).toBe(201);
+                tool.description = "description changed";
+                const response = await request(app)
+                    .put(`/tools/${tool.id}`)
+                    .send(tool)
 
-        let toolUpdate: Tool = response.body;
-        toolUpdate.description = "description changed";
-        response = await request(app)
-            .put(`/tools/${toolUpdate.id}`)
-            .send(toolUpdate)
-
-        expect(response.status).toBe(401);
+                expect(response.status).toBe(401);
+            });
     });
 
     it(`should to delete tool by id`, async () => {
-        let response = await request(app)
-            .post('/tools')
-            .send(tool)
-            .set('Authorization', `Bearer ${token}`);
+        await getRepository(Tool)
+            .save(plainToClass(Tool, toolSample))
+            .then(async tool => {
 
-        expect(response.status).toBe(201);
+                const response = await request(app)
+                    .delete(`/tools/${tool.id}`)
+                    .set('Authorization', `Bearer ${token}`);
 
-        const { id } = response.body;
-        response = await request(app)
-            .delete(`/tools/${id}`)
-            .set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).toBe(204);
+                expect(response.status).toBe(204);
+            });
     });
 
     it(`shouldn't to delete tool by id without authorization`, async () => {
-        let response = await request(app)
-            .post('/tools')
-            .send(tool)
-            .set('Authorization', `Bearer ${token}`);
+        await getRepository(Tool)
+            .save(plainToClass(Tool, toolSample))
+            .then(async tool => {
 
-        expect(response.status).toBe(201);
+                const response = await request(app)
+                    .delete(`/tools/${tool.id}`)
 
-        const { id } = response.body;
-        response = await request(app)
-            .delete(`/tools/${id}`)
-
-        expect(response.status).toBe(401);
+                expect(response.status).toBe(401);
+            });
     });
 
 });

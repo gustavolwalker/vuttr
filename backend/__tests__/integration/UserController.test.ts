@@ -9,7 +9,7 @@ describe('UserController', () => {
     let app: Server;
     let token: string;
 
-    const user = {
+    const userSample = {
         name: "Test",
         email: "test@test.com",
         password: "1234",
@@ -53,19 +53,20 @@ describe('UserController', () => {
     });
 
     it(`should user exits`, async () => {
-        let response = await request(app)
+        await request(app)
             .post('/users')
-            .send(user);
+            .send(userSample)
+            .then(async res => {
+                expect(res.status).toBe(201);
 
-        expect(response.status).toBe(201);
+                const { id } = res.body;
+                const response = await request(app)
+                    .get(`/users/${id}`)
+                    .set('Authorization', `Bearer ${token}`);
 
-        const { id } = response.body;
-        response = await request(app)
-            .get(`/users/${id}`)
-            .set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).toBe(200);
-        expect(response.body).not.toBeNull();
+                expect(response.status).toBe(200);
+                expect(response.body).not.toBeNull();
+            });
     });
 
     it(`should user not exits`, async () => {
@@ -79,7 +80,7 @@ describe('UserController', () => {
     });
 
     it(`should to store new user`, async () => {
-        const response = await request(app).post('/users').send(user);
+        const response = await request(app).post('/users').send(userSample);
 
         expect(response.status).toBe(201);
         expect(response.header).toHaveProperty("content-type");
@@ -88,56 +89,65 @@ describe('UserController', () => {
     });
 
     it(`should to update stored user`, async () => {
-        let response = await request(app).post('/users').send(user);
+        await request(app)
+            .post('/users')
+            .send(userSample)
+            .then(async res => {
+                expect(res.status).toBe(201);
 
-        expect(response.status).toBe(201);
+                let userUpdate: User = res.body;
+                userUpdate.name = "Administrator";
+                const response = await request(app)
+                    .put(`/users/${userUpdate.id}`)
+                    .send(userUpdate)
+                    .set('Authorization', `Bearer ${token}`);
 
-        let userUpdate: User = response.body;
-        userUpdate.name = "Administrator";
-        response = await request(app)
-            .put(`/users/${userUpdate.id}`)
-            .send(userUpdate)
-            .set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).toBe(202);
+                expect(response.status).toBe(202);
+            });
     });
 
     it(`shouldn't update stored user without authorization`, async () => {
-        let response = await request(app).post('/users').send(user);
+        await request(app)
+            .post('/users')
+            .send(userSample).then(async res => {
+                expect(res.status).toBe(201);
 
-        expect(response.status).toBe(201);
+                let userUpdate: User = res.body;
+                userUpdate.name = "Administrator";
+                const response = await request(app)
+                    .put(`/users/${userUpdate.id}`)
+                    .send(userUpdate)
 
-        let userUpdate: User = response.body;
-        userUpdate.name = "Administrator";
-        response = await request(app)
-            .put(`/users/${userUpdate.id}`)
-            .send(userUpdate)
-
-        expect(response.status).toBe(401);
+                expect(response.status).toBe(401);
+            });
     });
 
     it(`should to delete user by id`, async () => {
-        let response = await request(app).post('/users').send(user);
+        await request(app)
+            .post('/users')
+            .send(userSample).then(async res => {
+                expect(res.status).toBe(201);
 
-        expect(response.status).toBe(201);
+                const { id } = res.body;
+                const response = await request(app)
+                    .delete(`/users/${id}`)
+                    .set('Authorization', `Bearer ${token}`);;
 
-        const { id } = response.body;
-        response = await request(app)
-            .delete(`/users/${id}`)
-            .set('Authorization', `Bearer ${token}`);;
-
-        expect(response.status).toBe(204);
+                expect(response.status).toBe(204);
+            });
     });
 
     it(`shouldn't delete user by id without authorization`, async () => {
-        let response = await request(app).post('/users').send(user);
+        await request(app)
+            .post('/users')
+            .send(userSample).then(async res => {
+                expect(res.status).toBe(201);
 
-        expect(response.status).toBe(201);
+                const { id } = res.body;
+                const response = await request(app)
+                    .delete(`/users/${id}`)
 
-        const { id } = response.body;
-        response = await request(app)
-            .delete(`/users/${id}`)
-
-        expect(response.status).toBe(401);
+                expect(response.status).toBe(401);
+            });
     });
 });

@@ -1,17 +1,32 @@
+import { plainToClass } from "class-transformer";
+import { validate } from "class-validator";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { validate } from "class-validator";
-import { plainToClass } from "class-transformer";
-
 import { Tool } from "../entities/Tool";
 
 class ToolController {
 
     index = (req: Request, res: Response) => {
+
+        let where = "";
+        if (req.query) {
+            if (req.query.tag)
+                where += `LOWER(taglike.tag) like '%${req.query.tag.toLowerCase()}%'`
+            if (req.query.q) {
+                const like = req.query.q.toLowerCase();
+                where += `CAST(tool.id AS VARCHAR) like '%${like}%' `;
+                where += `OR LOWER(tool.title) like '%${like}%' `;
+                where += `OR LOWER(tool.link) like '%${like}%' `;
+                where += `OR LOWER(tool.description) like '%${like}%' `;
+                where += `OR LOWER(taglike.tag) like '%${like}%' `;
+            }
+        }
+
         getRepository(Tool)
             .createQueryBuilder("tool")
             .leftJoinAndSelect("tool.tags", "tag")
-            .andWhere(req.query.tag ? `tag = '${req.query.tag}'` : "")
+            .leftJoin("tool.tags", "taglike")
+            .where(where)
             .getMany()
             .then((tools: Array<Tool>) => res.json(tools))
             .catch((err: Error) => {
@@ -32,7 +47,7 @@ class ToolController {
     }
 
     store = async (req: Request, res: Response) => {
-        const entity: Tool = plainToClass(Tool, req.body);        
+        const entity: Tool = plainToClass(Tool, req.body);
         const errors = await validate(entity);
         if (errors.length > 0) {
             res.status(400).send(errors);
