@@ -14,8 +14,8 @@ class ToolsService {
         return api.get<ITool>(`/tools/${id}`);
     }
 
-    getAll() {
-        return api.get<ITool[]>('/tools');
+    getAll(query?: string, onlyTags?: boolean) {
+        return api.get<ITool[]>(`/tools${query && query.trim().length ? (onlyTags ? `?tag=${query}`: `?q=${query}`) : '' }`);
     }
 
     create(tool: ITool) {

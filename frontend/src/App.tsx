@@ -8,20 +8,24 @@ import ToolRemove from './components/tool.remove';
 import './Modal.css';
 import { ITool, ToolsService } from './services/tools.service';
 import { AppContext, AppReducer, initialState } from './store';
+import useDebounce from './utils/debouce';
 
 const App: React.FC = () => {
   const [tool, setTool] = useState<ITool>();
   const [service] = useState(new ToolsService());
   const [state, dispatch] = useReducer(AppReducer, initialState);
+  const [searchTool, setSearchTool] = useState('');
+  const [searchOnlyTag, setSearchOnlyTag] = useState(false);
+  const debouncedSearchTool = useDebounce(searchTool, 500);
 
   useEffect(() => {
-    service.getAll()
+    service.getAll(debouncedSearchTool, searchOnlyTag)
       .then(results => {
         dispatch({ type: 'tools', values: results.data });
       }).catch(() => {
         dispatch({ type: 'error', error: 'Server unavalible, please check your network connections.' });
       });
-  }, [service]);
+  }, [debouncedSearchTool, searchOnlyTag, service]);
 
   const handleRemove = (tool: ITool) => {
     if (tool && tool.id) {
@@ -41,9 +45,9 @@ const App: React.FC = () => {
           <fieldset>
             <div className="pure-g">
               <div className="pure-u-21-24">
-                <input id="search" type="search" placeholder="search" />
+                <input id="search" type="search" onChange={e => setSearchTool(e.target.value)} placeholder="search" />
                 <label htmlFor="onlyTags">
-                  <input id="onlyTags" type="checkbox" /> search in tags only
+                  <input id="onlyTags" type="checkbox" onChange={e => setSearchOnlyTag(e.target.checked)} /> search in tags only
               </label>
               </div>
               <div className="pure-u-3-24" style={{ textAlign: "right" }}>
@@ -58,6 +62,7 @@ const App: React.FC = () => {
             {state.tools && state.tools.map(tool =>
               <Tool key={tool.id} tool={tool} handleRemove={handleRemove} />
             )}
+            {!state.tools.length && <span>No results found.</span>}
           </div>
         </div>
       </div>
