@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { ITool, ToolsService } from '../services/tools.service';
 import { IValidate } from '../services/validate.service';
 import { AppContext } from '../store';
@@ -16,17 +16,15 @@ const ToolForm: React.FC = () => {
     const toolForm = useRef<HTMLFormElement>(null);
     const { state, dispatch } = useContext(AppContext);
 
-    useEffect(() => {
-        toolForm.current?.reset();
-    }, []);
-
-    const handleTags = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const handleTags = (ev: React.ChangeEvent<HTMLInputElement>): void => {
         const { value } = ev.target;
         setTags(value.replace(", ", " ").replace(",", "").split(" "));
     }
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        setError("");
+        setInputErrors([]);
 
         const tool: ITool = {
             title,
@@ -34,18 +32,17 @@ const ToolForm: React.FC = () => {
             description,
             tags
         }
-        console.log(tool)
+
         await service.create(tool)
             .then(response => {
                 if (response.status === 201) {
                     state.tools.push(response.data);
                     dispatch({ type: 'tools', values: state.tools })
-                    toolForm.current?.reset();
+                    toolForm.current?.reset();                   
                     $('#tool').modal('hide');
                 }
             }).catch((err: AxiosError) => {
                 if (err.response && err.response.status === 400) {
-                    console.log(err.response.data)
                     setInputErrors(err.response.data);
                 } else {
                     setError("Server error or unavalible.")
