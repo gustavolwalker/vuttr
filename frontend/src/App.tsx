@@ -47,8 +47,8 @@ const App: React.FC = () => {
               <div className="pure-u-21-24">
                 <input id="search" type="search" onChange={e => setSearchTool(e.target.value)} placeholder="search" />
                 <label htmlFor="onlyTags">
-                  <input id="onlyTags" type="checkbox" onChange={e => setSearchOnlyTag(e.target.checked)} /> search in tags only
-              </label>
+                  <input id="onlyTags" type="checkbox" onChange={e => setSearchOnlyTag(e.target.checked)} style={{ marginLeft: '1em' }} /> search in tags only
+                </label>
               </div>
               <div className="pure-u-3-24" style={{ textAlign: "right" }}>
                 <a href="#tool" className="pure-button pure-button-primary" hidden={!state.isLogged} data-toggle="modal">+ Add</a>
