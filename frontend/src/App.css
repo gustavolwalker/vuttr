@@ -62,6 +62,7 @@ h5 {
 /*
  * -- Buttons styles
  */
+
 button[role="link"] {
     background: none;
     border: none;
@@ -106,6 +107,7 @@ button[role="link"].pure-button-primary {
 /*
  * -- Menu styles
  */
+
 .home-menu {
     padding: 0.5em;
     text-align: left;
@@ -138,6 +140,7 @@ button[role="link"].pure-button-primary {
 /*
  * -- Card styles
  */
+
 .card {
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #EBEAED;
@@ -154,6 +157,7 @@ button[role="link"].pure-button-primary {
 /*
  * -- Forms sigin signout styles
  */
+
 .sign.pure-form {
     margin: auto;
     width: 375px;
@@ -169,13 +173,12 @@ button[role="link"].pure-button-primary {
 }
 
 .sign.pure-form small.error {
-    vertical-align: top;    
+    vertical-align: top;
     text-align: right;
     width: 100%;
-
 }
 
-.sign.pure-form button {    
+.sign.pure-form button {
     margin: 15px 5px;
     width: 360px;
 }
@@ -183,11 +186,22 @@ button[role="link"].pure-button-primary {
 /*
  * -- Alerts
  */
+
 .alert {
     background: #B1ADB9 0% 0% no-repeat padding-box;
     border-radius: 5px;
     opacity: 1;
     padding: 5px 10px;
+}
+
+.alert.error .icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 1em;
+}
+
+.alert .icon .a {
+    fill: #FFFFFF;
 }
 
 .alert.success {
@@ -203,6 +217,6 @@ button[role="link"].pure-button-primary {
     background-color: #FFBB43;
 }
 
-.error{
+.error {
     color: #F95E5A;
 }
