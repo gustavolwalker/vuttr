@@ -19,6 +19,8 @@ const Signup: React.FC = () => {
 
     const handleSignup = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        setError("");
+        setInputErrors([]);
 
         if (!name || !email || !password) {
             setError("Please type your full name, e-mail and password to sign up!");

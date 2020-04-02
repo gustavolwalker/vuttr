@@ -13,6 +13,7 @@ const Signin: React.FC = () => {
 
     const handleSignin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        setError("");        
 
         if (!email || !password) {
             setError("Please type your e-mail and password to sign in!");
