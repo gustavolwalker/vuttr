@@ -1,9 +1,11 @@
 # VUTTR-BACKEND
+
 This is a sample backend code to control some tools to remember writing in NodeJS, Express, Body-Parser, Typeorm, PostgresSQL, TypeScript, Jest, and more.
 
-## Scripts to use
+## Available Scripts
 
 ### Init 
+
 To inicialize repository you need to run first:
 
 ```sh
@@ -11,6 +13,7 @@ yarn install
 ```
 
 ### Create a dev database
+
 To create a dev database (optional because this runing before 'yarn dev'):
 
 ```sh
@@ -27,6 +30,7 @@ yarn typeorm schema:drop
 ```
 
 ### Running in dev 
+
 Execute in develpment mode using nodemon:
 
 ```sh
@@ -34,6 +38,7 @@ yarn dev
 ```
 
 ### Running tests 
+
 Execute tests using JEST:
 
 ```sh
@@ -59,6 +64,7 @@ It's start a web server on port localhost:3003
 
 
 ### Generate a build
+
 Execute tsc to create a build:
 
 ```sh
