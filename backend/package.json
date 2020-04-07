@@ -30,19 +30,19 @@
    "devDependencies": {
       "@types/bcryptjs": "^2.4.2",
       "@types/cors": "^2.8.6",
-      "@types/express": "^4.17.3",
+      "@types/express": "^4.17.4",
       "@types/express-mung": "^0.5.2",
-      "@types/jest": "^25.1.4",
-      "@types/jsonwebtoken": "^8.3.8",
-      "@types/node": "^13.9.8",
+      "@types/jest": "^25.2.1",
+      "@types/jsonwebtoken": "^8.3.9",
+      "@types/node": "^13.11.0",
       "@types/supertest": "^2.0.8",
       "es6-shim": "^0.35.5",
-      "jest": "^25.2.4",
+      "jest": "^25.2.7",
       "nodemon": "^2.0.2",
       "sqlite3": "^4.1.1",
       "supertest": "^4.0.2",
-      "ts-jest": "^25.3.0",
-      "ts-node": "^8.8.1",
+      "ts-jest": "^25.3.1",
+      "ts-node": "^8.8.2",
       "typescript": "^3.8.3"
    }
 }
